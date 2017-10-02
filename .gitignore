@@ -1,0 +1,9 @@
+*~
+*.class
+*.jar
+
+/mibot/.lein-*
+/mibot/.nrepl-port
+/mibot/target/
+mibot/test/clj/mibot/slack_test_fixture.edn
+mibot/resources/config/dev.edn

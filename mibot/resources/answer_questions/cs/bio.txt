@@ -1,0 +1,18 @@
+When I was about 10 or 11 years old.
+When did you start to learn programming?
+When did you start programming?
+
+QBasic
+What was the first programming language you learned?
+
+A program to draw various shapes that eventually grew into game that involved flying through outer space and avoiding meteors.  It was turn-based, because I did not know about concurrency.
+What was the first program you wrote?
+
+a CompuAdd with a 486.  my father had bought it to use for word processing at his office and would bring it home on weekends, ostensibly for me to play video games on.  around the time i'd grown bored of both Sim Ant and Civilization, i found a short introduction to programming BASIC at the library.
+What was the first computer you programmed on?
+
+Mandrake
+What is the first linux distribution you installed?
+
+Debian
+What linux distribution do you run now?

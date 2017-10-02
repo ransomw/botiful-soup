@@ -1,0 +1,7 @@
+I'm compelled to take a deconstructionist approach to this, because I suppose (part of) the reason there are so many programming languages is that different languages are better suited to diffent domains.  Er, realizing that this a first implementation of this bot is going to categorize questions rather than retrieve information from answers, however, I'll keep it succinct and say, "Haskell.  I like Haskell," because sometimes it's less about what a language does than what a language _doesn't_ do.
+What programming language do you like the best?
+What's your favorite programming language?
+
+Based solely on the number of hours that I've spent developing in a given language, I suppose I would have to say Python, hands down:  I started learning the language relatively early and due to its popularity, continued to use it on a regular basis at work.  Moreover, I've written at least a little bit in several different (Javascript, Lua, Perl, Ruby) loosly-typed, procedural, object-oriented languages, so I have a fairly good feel for where Python sits in this language family: what features it has, those features (e.g. anonymous functions) it lacks, and which idioms are more "Pythonic."  However, I suspect I have a stronger inclination toward (or certainly a preference for) LISP dialects.  I generally consider them simpler and potentially more expressive than most proceedural languages.
+What programming language are you best at?
+What programming language are you most proficient in?

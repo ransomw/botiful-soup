@@ -1,0 +1,9 @@
+{:test
+ {:api-token "xoxb-"
+  :channel "test-channel"
+  }
+ :echo
+ {:api-token "xoxb-"
+  :channel "echo-chan"
+  }
+ }

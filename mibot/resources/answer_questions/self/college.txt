@@ -1,0 +1,20 @@
+the California Institute of Technology
+Where did you go to college?
+Where did you go to school?
+
+Math.  specifically, pure math, by which i mean the study of objective (i.e. non-empirical) truth and, in practice, techniques for proving some certain categories of facts.
+What is your major in college?
+What did you study in college?
+
+I enjoyed my algebra classes a lot, mostly because they were taught by Micheal Aschbacher.  Mature mathematicians do not always think rigourously in practice (for efficiency reasons).  I suppose the most essential binary classifier for a trained mathematician (as opposed to ordinal or scalar classes of mathematical ability or maturity) is still the ability to express ideas in precise formulations.  I believe I owe much of my learned ability to do so first to my parents (contract lawyers) and then to Aschbacher's teaching style.
+What is your favorite class in college?
+What did you learn in college?
+
+I was originally registered be a mechanical engineer, because I have a great uncle who was an engineer in the Army Corps and it seemed practical.  However, I had friends taking introductory Math and Physics major courses my sophomore year, so I wanted to tag along to those.  Then, over winter break of that year, I visited home with an introductory book on graph theory.  The simultaneous simplicity and depth of the subject was considered beautiful.  Plus, while I was enjoying the fluid flow and thermodynamics aspects of ME quite a lot, I was just about failing any classes that had to do with solid-body mechanics.
+Why did you choose your college major?
+How did you choose your college major?
+
+In addition the the standard math curriculum (algebra, analysis, topology, and some elective combinatorics), I took introductory classes on fluid flow an thermodynamics.  I also took the theoretical physics track (special relatively, intro to quantum mechanics) through my sophomore year.  The only CS classes I completed were the standard introductory course, then taught out of SICP, and a language lab in C (because I already knew C and thought the coursework would be a useful item on my resume).
+What did you learn in college?
+What did you study in college?
+What classes did you take in college?
