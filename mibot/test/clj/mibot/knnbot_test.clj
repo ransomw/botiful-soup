@@ -5,6 +5,12 @@
    [clojure.string :as string]
 
    [mibot.util :refer [position]]
+   [mibot.preproc.graph
+    :refer [get-containing-set-counts
+            ]]
+   [mibot.learn.heuristics
+    :refer [greedy-partitioner
+            ]]
    [mibot.learn.knn :refer [find-nn]]
    [mibot.bots.knn :as knnbot]
    ))
@@ -34,22 +40,51 @@
                            ])))
   )
 
+(deftest check-containing-set-counts
+  (let [containing-set-counts (get-containing-set-counts
+                               (set knnbot/questions-preproc))
+        containing-sets (set (keys containing-set-counts))]
+    (is (= 0
+           (->> knnbot/words
+                (map (fn [word] #{word}))
+                (filter
+                 (comp not (partial contains? containing-sets)))
+                count
+                )))
+    ))
+
+(deftest greedy-partitioner-test
+  (let [containing-set-counts (get-containing-set-counts
+                               (set knnbot/questions-preproc))
+        containing-sets (set (keys containing-set-counts))
+        some-words (set (take 4 knnbot/words))]
+    (greedy-partitioner containing-sets some-words)
+    ))
+
+(defn smoke-test-by-dist-fn [dist-fn]
+  (let [get-answer (partial knnbot/get-answer 1 dist-fn)]
+    (loop [question-idx 0]
+      (let [some-question (nth some-questions question-idx)
+            some-answer (get-answer (str some-question "?"))
+            answer-positions (position some-answer
+                                       knnbot/answers :all true)
+            question-positions (position some-question
+                                         knnbot/questions :all true)
+            qna-positions (set/intersection
+                           (set answer-positions)
+                           (set question-positions))
+            ]
+        (is (= 1 (count (knnbot/get-all-nn-preproc
+                         1 dist-fn
+                         some-question))))
+        (is (not (= 0 (count qna-positions))))
+        )
+      (let [next-question-idx (inc question-idx)]
+        (if (< next-question-idx (count some-questions))
+          (recur next-question-idx)))
+      )))
+
 (deftest smoke-test
-  (loop [question-idx 0]
-    (let [some-question (nth some-questions question-idx)
-          some-answer (knnbot/get-answer (str some-question "?"))
-          answer-positions (position some-answer
-                                     knnbot/answers :all true)
-          question-positions (position some-question
-                                       knnbot/questions :all true)
-          qna-positions (set/intersection
-                         (set answer-positions)
-                         (set question-positions))
-          ]
-      (is (= 1 (count (knnbot/get-all-nn-preproc some-question))))
-      (is (not (= 0 (count qna-positions))))
-      )
-    (let [next-question-idx (inc question-idx)]
-      (if (< next-question-idx (count some-questions))
-        (recur next-question-idx)))
-  ))
+  (smoke-test-by-dist-fn :symm-diff)
+  (smoke-test-by-dist-fn :info-greedy)
+  )

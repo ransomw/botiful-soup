@@ -15,10 +15,10 @@
    [edu.stanford.nlp/stanford-parser "3.5.1" :classifier "models"]
    [postagga "0.2.8"]
    [org.clojure/math.combinatorics "0.1.4"]
-   [org.clojure/math.numeric-tower "0.0.4"]
-   [ubergraph "0.4.0"]
    [aysylu/loom "1.0.0"]
    [com.hypirion/clj-xchart "0.2.0"]
+   [stemmers "0.2.2"]
+   [com.taoensso/tufte "1.1.2"]
    ]
 
   :plugins

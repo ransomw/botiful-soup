@@ -1,62 +1,71 @@
 (ns mibot.bots.knn
   (:require
+   [clojure.set :as set]
    [clojure.string :as string]
    [mibot.util :refer [position]]
    [mibot.preproc.parse :as parse]
-   [mibot.preproc.nlp.core :refer [lemmatize]]
+   [mibot.preproc.nlp.core :refer [lemmatize stemmatize]]
    [mibot.learn.knn :refer [find-nn]]
-   [mibot.learn.metrics :refer [dist-symm-diff]]
+   [mibot.learn.metrics
+    :refer [dist-symm-diff
+            dist-symdif-info
+            ]]
+   [mibot.learn.heuristics
+    :refer [
+            make-greedy-symdif-info
+            greedy-symdif-info
+            ]]
    ))
 
 (def aq-root-dir "resources/answer_questions")
 
-(def aq-flat (parse/parse-aq-files-flat aq-root-dir))
-
-(def questions (flatten (:question-lists aq-flat)))
-
-(def answers
-  (->>
-   aq-flat
-   ((juxt :answers :question-lists))
-   (apply (partial map list))
-   (map (fn [[answer question-list]]
-          (repeat (count question-list) answer)))
-   flatten))
+(let [[questions answers
+       ] (parse/parse-aq-to-lists aq-root-dir)]
+  (def questions questions)
+  (def answers answers)
+  )
 
 (defn preproc-question [question]
-  (-> question (lemmatize)
+  (-> question stemmatize
       (#(string/split % #"\s"))
       set))
 
 (def questions-preproc (do (map preproc-question questions)))
 
-(def tmp
-  (->>
-   aq-flat
-   ((juxt :answers :question-lists))
-   (apply (partial map list))
-   ))
+(def words (apply set/union questions-preproc))
 
-(defn get-all-nn-preproc [question]
-  (let [question-preproc (-> question
-                             parse/parse-question
-                             preproc-question)
-        dist-fn (partial dist-symm-diff question-preproc)
+(defn preproc-asked-question
+  [question & {:keys [keep-words]
+               :or {keep-words words}}]
+  (set/intersection
+   keep-words
+   (-> question
+       parse/parse-question
+       preproc-question)))
+
+(def dist-fns
+  {:symm-diff dist-symm-diff
+   :info (partial dist-symdif-info (set questions-preproc))
+   :info-greedy (make-greedy-symdif-info (set questions-preproc))
+   })
+
+(defn get-all-nn-preproc [k dist-fn question]
+  {:pre [(contains? (set (keys dist-fns)) dist-fn)
+         (integer? k)
+         (> k 0)]}
+  (let [question-preproc (preproc-asked-question question)
+        dist-fn (partial (get dist-fns dist-fn) question-preproc)
         ]
-    (find-nn dist-fn questions-preproc 1)
+    (find-nn dist-fn questions-preproc k)
     ))
 
-(defn get-nn-preproc [question]
-  ;; {:post [(contains? questions-preproc %)]}
-  (-> (get-all-nn-preproc question)
-      ;; in case a question has more that one neighbor
-      shuffle first))
-
-(defn get-answer [question]
+(defn get-answer [k dist-fn question]
   (nth answers
-       (-> question
-           get-nn-preproc
-           (position questions-preproc :all true)
-           ;; in case a question corresponds to multiple answers
-           shuffle first)
+       (->
+        (get-all-nn-preproc k dist-fn question)
+        ;; in case a question has more that one neighbor
+        shuffle first
+        (position questions-preproc :all true)
+        ;; in case a question corresponds to multiple answers
+        shuffle first)
        ))

@@ -72,3 +72,17 @@
     {:question-lists (concat (map :questions parsed-files))
      :answers (concat (map :answer parsed-files))
      }))
+
+(defn parsed-aq-to-lists [parsed-files]
+  (let [question-lists (concat (map :questions parsed-files))
+        answers (concat (map :answer parsed-files))
+        ]
+    [(flatten question-lists)
+     (->> (map list answers question-lists)
+          (map (fn [[answer question-list]]
+                 (repeat (count question-list) answer)))
+          flatten)]
+    ))
+
+(def parse-aq-to-lists
+  (comp parsed-aq-to-lists nested-vals-flat parse-aq-files))

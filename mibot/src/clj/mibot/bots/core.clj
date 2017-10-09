@@ -8,5 +8,6 @@
 (defn new-echo-bot []
   (new-bot identity))
 
-(defn new-knn-bot []
-  (new-bot get-answer-knn))
+(defn new-knn-bot [& {:keys [k dist-fn]
+                      :or {k 1 dist-fn :info-greedy}}]
+  (new-bot (partial get-answer-knn k dist-fn)))
